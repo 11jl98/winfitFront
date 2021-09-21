@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div class="shadow rounded" style="border:none!important">
     <b-card
-      style="background-color: #f2f2f2; border: none"
+      style="background-color: #f2f2f2; border:none!important"
       no-body
       class="mb-1"
     >
-      <b-card-header header-tag="header" class="p-0" role="tab">
+      <b-card-header style="border:none!important" header-tag="header" class="p-0" role="tab">
       </b-card-header>
-      <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <b-row class="col-sm-12">
+      <b-collapse style="border:none!important" id="accordion-3" accordion="my-accordion" role="tabpanel">
+        <b-card-body style="border:none!important">
+          <b-row class="col-sm-12" style="border:none!important">
             <b-form-group label="Tipo de Pesquisa" v-slot="{ ariaDescribedby }">
               <b-form-radio
                 @change="limparPesquisa"
@@ -67,9 +67,9 @@
             </b-form-group>
           </b-row>
 
-          <b-card>
-            <table class="table table-sm table-borderless">
-              <thead>
+          <b-card bg-variant="success" style="width: 100%!important;" text-variant="white"> 
+            <table class="table table-sm  text-white table-borderless ">
+              <thead class="">
                 <tr>
                   <th scope="col">Nº Registro</th>
                   <th scope="col">Nome Comum</th>
@@ -81,7 +81,7 @@
                   <td>{{ agrot.REGISTRO }}</td>
                   <td>{{ agrot.NOMECOMUM }}</td>
                   <td>
-                    <b-button variant="outline-danger" size="sm"
+                    <b-button variant="info" size="sm"
                       ><b-icon-trash></b-icon-trash
                     ></b-button>
                   </td>

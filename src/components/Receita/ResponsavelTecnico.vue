@@ -1,8 +1,8 @@
 <template>
     <b-card
-        style="background-color: #f2f2f2; border: none"
+        style="background-color: #f2f2f2; border:none!important"
         no-body
-        class="mb-1"
+        class="mb-1 shadow rounded"
       >
         <b-card-header
           header-tag="header"
@@ -113,12 +113,13 @@ data(){
 },
 methods:{
      async responsavelTec() {
-      const { data } = await httpEmpresa.get("responsavel/schema");
+      const { data } = await httpEmpresa.get("/responsavel");
       this.responsavelTecnico = data;
       console.log(data);
+      
     },
     async responsavelSelecionado(id) {
-      const { data } = await httpEmpresa.get(`responsavel/${id}`);
+      const { data } = await httpEmpresa.get(`responsavel/schema/${id}`);
       console.log(data);
       this.responsavelDados.artatual = data.artatual;
       this.responsavelDados.receitasart = data.receitasart;

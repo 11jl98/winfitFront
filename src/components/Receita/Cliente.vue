@@ -1,5 +1,5 @@
 <template>
-  <b-card style="background-color: #f2f2f2; border: none" no-body class="mb-1">
+  <b-card style="background-color: #f2f2f2;" no-body class="mb-1 shadow rounded">
     <b-card-header header-tag="header" class="p-0" role="tab"> </b-card-header>
     <b-collapse id="accordion-cliente" accordion="my-accordion" role="tabpanel">
       <b-card-body>
@@ -76,7 +76,7 @@ export default {
     },
     async cliente() {
         try {
-            const { data } = await httpEmpresa.get("cliente/schema");
+            const { data } = await httpEmpresa.get("/cliente");
             this.clientes = data;
             console.log(data);
         } catch (error) {

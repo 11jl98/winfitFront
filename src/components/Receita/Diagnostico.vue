@@ -2,7 +2,7 @@
   <b-card
     style="background-color: #f2f2f2; border: none !important"
     no-body
-    class="mb-1"
+    class="mb-1 shadow rounded" 
   >
     <b-card-header header-tag="header" class="p-0" role="tab"> </b-card-header>
     <b-collapse

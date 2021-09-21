@@ -1,8 +1,8 @@
 <template>
   <b-card
-        style="background-color: #f2f2f2; border: none"
+        style="background-color: #f2f2f2; border: none!important"
         no-body
-        class="mb-1"
+        class="mb-1 shadow rounded"
       >
         <b-card-header header-tag="header" class="p-0" role="tab">
         </b-card-header>
@@ -107,6 +107,7 @@
                 placeholder="Enter something..."
                 rows="3"
                 max-rows="6"
+                v-model="epi"
               ></b-form-textarea>
             </div>
             <b-button
@@ -142,7 +143,8 @@ data(){
         embalagens: [],
         embalagemSelect: null,
         aplicacoes: [],
-        aplicacaoSelect: null
+        aplicacaoSelect: null,
+        epi:"RESPIRADORES SEMIFACIAIS OU FACIAIS COM FILTROS P2 OU P3. ÓCULOS DE SEGURANÇA OU VISEIRA FACIAL. MACACÃO DE ALGODÃO HIDRO-REPELENTE E IMPERMEÁVEL. AVENTAL DE BAGUM E/OU TECIDO EMBORRACHADO ALUMINIZADO. BOTA IMPERMEÁVEL DE CANO ALTO (PVC). AO SURGIMENTO DE QUALQUER DÚVIDA, LEIA AS RECOMENDAÇÕES DO RÓTULO E BULA."
     }
 },
 watch:{
@@ -166,8 +168,8 @@ methods:{
     console.log(data)
 
     var a = data.aplicacao +" "+  data.descricao +" "+ data.OBSERVACAO +" "+ data.descricaoaplicacao
-    a.replace("/r/r/n", " ").replace("/r/n"," ").replace("/r","")
-this.modoDeAplicacao = a.replace("/r/r/n", " ").replace("/r/n"," ").replace("\r","")
+   
+this.modoDeAplicacao = a.toUpperCase()
     }
 }
 }
