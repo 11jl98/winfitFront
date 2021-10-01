@@ -25,9 +25,9 @@
       </div>
     </div>
     <div class="accordion col-sm-10" id="receita" role="tablist">
-      <DadosCadastrais/>
+      <DadosCadastrais :limparForm="reloadDelete" :dadosFornecedor="dadosFornecedor" @atualizarPesquisa="reloadPesquisa = !reloadPesquisa"/>
       <!-- <Propriedade/> -->
-      <Pesquisa/>
+      <Pesquisa @dadosFornecedor="dadosFornecedor = $event" :atualizarPesquisa="reloadPesquisa" @limparForm="reloadDelete = !reloadDelete" />
     </div>
   </div>
 </template>
@@ -38,6 +38,13 @@ import DadosCadastrais from '../../components/Fornecedor/DadosCadastrais.vue'
 import Pesquisa from '../../components/Fornecedor/Pesquisa.vue'
 
 export default {
+  data(){
+    return{
+      reloadPesquisa: false,
+      reloadDelete: false,
+      dadosFornecedor:{}
+    }
+  },
   mounted(){
     document.getElementById("btnReceita").focus()
   },
@@ -49,5 +56,61 @@ export default {
 };
 </script>
 
-<style>
+<style scoped >
+#btnReceita {
+  background-color: #038c5a;
+  border: none !important;
+  transition: 1s;
+}
+#btnReceita:hover {
+  background-color: #004526 !important;
+}
+
+#btnReceita:focus {
+  background-color: #004526 !important;
+}
+
+.card {
+  border: 0px solid #ffff !important;
+}
+
+#menuReceita {
+  width: 18% !important;
+}
+
+@media (max-height: 696px) {
+  #menuReceita{
+    height: 500px!important;
+  }
+  #divContainer{
+   
+    margin-top: 1%!important;
+  }
+}
+
+/* @media (max-width: 950px) {
+  #menuReceita {
+    width: 99% !important;
+    height: 600px !important;
+    margin-left: 2px!important;
+  }
+  #divContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  #receita {
+    width: 100% !important;
+  }
+
+  .card {
+    border-radius: 10px;
+  }
+} */
+
+
+@media (min-width: 1120px) {
+  div #receita {
+    max-width: 80% !important;
+  }
+}
 </style>

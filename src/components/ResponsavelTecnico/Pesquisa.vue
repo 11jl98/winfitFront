@@ -35,7 +35,7 @@
             <div style="margin: auto 20px">
               <b-button
                 variant="primary"
-                class="mt-3"
+                class="mt-3 mb-3"
                 :disabled="pesquisa === '' ? true : false"
                 @click="readResponsaveisParams()"
               >
@@ -45,8 +45,8 @@
             </div>
           </b-row>
 
-          <div>
-            <table class="table table-sm">
+          <div class="divTable">
+            <table class="table table-sm table-pesquisa" >
               <thead>
                 <tr>
                   <th>Nome</th>
@@ -97,6 +97,7 @@
                 </tr>
               </tbody>
             </table>
+            </div>
             <hr />
             <div style="display: flex; justify-content: space-between">
               <b-button
@@ -127,7 +128,7 @@
                 >Proximo <b-icon-arrow-right class="mr-2"></b-icon-arrow-right>
               </b-button>
             </div>
-          </div>
+          
         </div>
       </b-card-body>
     </b-collapse>
@@ -217,8 +218,9 @@ export default {
     },
 
     editarResponsavel(resposavel) {
-      console.log(resposavel);
+      console.log("aqui 1");
       this.$emit("resposavelEdit", resposavel);
+      this.$emit("resposavelEditMobile", resposavel);
       if (this.lastResposavelSelect === "") {
         document.getElementById(resposavel.id_responsavel).disabled = true;
         document.getElementById(
@@ -251,4 +253,10 @@ export default {
 </script>
 
 <style>
+.divTable{
+  overflow: auto;
+}
+.table-pesquisa{
+  min-width: 437px;
+}
 </style>

@@ -1,10 +1,11 @@
 <template>
-  <b-card style="background-color: #f2f2f2" no-body class="mb-1 shadow rounded">
+  <b-card style="background-color: #f2f2f2" no-body class="mb-1 shadow rounded ">
     <b-card-header header-tag="header" class="p-0" role="tab"> </b-card-header>
     <b-collapse
       id="accordion-responsavel"
       accordion="my-accordion"
       role="tabpanel"
+      class="h-0"
     >
       <h3 class="m-3">Dados do Responsavel Técnico</h3>
       <hr />
@@ -209,9 +210,13 @@
 // import { httpEmpresa as Empresa } from '../../services/configEmpresa';
 export default {
   props: {
+    dadosPesquisaMobile:{
+      type: Object,
+    },
     dadosPesquisa: {
       type: Object,
     },
+
   },
   data() {
     return {
@@ -233,17 +238,40 @@ export default {
     };
   },
   methods: {
-    proximoPasso(idAcordion) {
-        this.$emit("dadosResponsavel", this.dadosResponsavel);
-      this.$root.$emit("bv::toggle::collapse", idAcordion);
-      if (idAcordion === "accordion-dadosTecnicos") {
-        document.getElementById("btnDadosResponsavel").focus();
-      }
-    },
+    // proximoPasso(idAcordion) {
+    //     this.$emit("dadosResponsavel", this.dadosResponsavel);
+    //   // this.$root.$emit("bv::toggle::collapse", idAcordion);
+    //   if (idAcordion === "accordion-dadosTecnicos") {
+    //     document.getElementById("btnDadosResponsavel").focus();
+    //   }
+    // },
   },
 
   watch: {
+
+
+    dadosPesquisaMobile() {
+      console.log("entrou mobile")
+      this.$root.$emit("bv::toggle::collapse", "accordion-responsavel");
+      this.dadosResponsavel.id_responsavel = this.dadosPesquisaMobile.id_responsavel;
+      this.dadosResponsavel.nome = this.dadosPesquisaMobile.nome;
+      this.dadosResponsavel.cpf = this.dadosPesquisaMobile.cpf;
+      this.dadosResponsavel.endereco = this.dadosPesquisaMobile.endereco;
+      this.dadosResponsavel.bairro = this.dadosPesquisaMobile.bairro;
+      this.dadosResponsavel.numero = this.dadosPesquisaMobile.numero;
+      this.dadosResponsavel.cidade = this.dadosPesquisaMobile.cidade;
+      this.dadosResponsavel.uf = this.dadosPesquisaMobile.uf;
+      this.dadosResponsavel.telefone = this.dadosPesquisaMobile.telefone;
+      this.dadosResponsavel.email = this.dadosPesquisaMobile.email;
+      this.dadosResponsavel.observacao = this.dadosPesquisaMobile.observacao;
+      this.dadosResponsavel.crea = this.dadosPesquisaMobile.crea;
+      this.dadosResponsavel.cep = this.dadosPesquisaMobile.cep;
+      document.getElementById("btnDadosCadastrais").focus();
+
+    },
+
     dadosPesquisa() {
+      this.$root.$emit("bv::toggle::collapse", "accordion-responsavel");
       this.dadosResponsavel.id_responsavel = this.dadosPesquisa.id_responsavel;
       this.dadosResponsavel.nome = this.dadosPesquisa.nome;
       this.dadosResponsavel.cpf = this.dadosPesquisa.cpf;
@@ -257,15 +285,16 @@ export default {
       this.dadosResponsavel.observacao = this.dadosPesquisa.observacao;
       this.dadosResponsavel.crea = this.dadosPesquisa.crea;
       this.dadosResponsavel.cep = this.dadosPesquisa.cep;
-
-      this.$root.$emit("bv::toggle::collapse", "accordion-responsavel");
       document.getElementById("btnDadosCadastrais").focus();
-      console.log(this.dadosPesquisa);
-      console.log(this.dadosResponsavel);
+     
+
     },
   },
 };
 </script>
 
 <style>
+@media (max-width: 950px) {
+  
+}
 </style>

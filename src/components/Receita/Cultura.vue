@@ -1,18 +1,21 @@
 <template>
-  <b-card
+  <!-- <b-card
     style="background-color: #f2f2f2; border: none!important"
     no-body
     class="mb-1 shadow rounded"
   >
-    <b-card-header header-tag="header" class="p-0" role="tab"> </b-card-header>
+    <b-card-header header-tag="header" class="p-0" role="tab"> </b-card-header> -->
     <b-collapse
       id="accordion-culturas"
       accordion="my-accordion"
       role="tabpanel"
+      class="animate__animated animate__zoomInDown"
+       style="background-color: #f2f2f2; border: none!important; border-radius: 5px"
     >
-      <b-card-body>
+     <b-overlay :show="show" bg-color="#fff" rounded="sm" spinner-variant="info" opacity="1">
+      <b-card-body style="height: 540px">
         <label for="">Selecione a Cultura</label>
-        <b-form-select
+        <!-- <b-form-select
           size="sm"
           :options="culturas"
           value-field="IDCULTURA.IDCULTURA"
@@ -20,7 +23,22 @@
           v-model="culturaSelect"
           class="mt-1 sele"
           @change="readCultura"
-        ></b-form-select>
+        ></b-form-select> -->
+
+         <b-form-select
+            v-model="culturaSelect"
+            class="mb-3"
+            @change="readCultura"
+          >
+            <b-form-select-option
+              v-for="(cultura, index) in culturas"
+              :key="index"
+              :value="cultura"
+              >{{
+                cultura.IDCULTURA.NOME 
+              }}</b-form-select-option
+            >
+          </b-form-select>
 
         <div class="col-sm-10 mt-3" style="margin: 0 auto">
           <div style="display: flex">
@@ -33,7 +51,7 @@
               <b-form-input
                 size="sm"
                 class="mt-2 col-sm-12"
-                v-model="dadosCultura.intervaloAplicacao"
+                v-model="dadosCultura.intervaloaplicacao"
               ></b-form-input>
             </b-form-group>
 
@@ -47,7 +65,7 @@
                 size="sm"
                 disabled
                 class="mt-2 col-sm-12"
-                v-model="dadosCultura.intervaloSeguranca"
+                v-model="dadosCultura.intervaloseguranca"
               ></b-form-input>
             </b-form-group>
           </div>
@@ -63,7 +81,7 @@
                 size="sm"
                 disabled
                 class="mt-2 col-sm-12"
-                v-model="dadosCultura.nMaxAplicacao"
+                v-model="dadosCultura.numeroaplicacoescompendio"
               ></b-form-input>
             </b-form-group>
 
@@ -76,7 +94,7 @@
               <b-form-input
                 size="sm"
                 class="mt-2 col-sm-12"
-                v-model="dadosCultura.nAplicacao"
+                v-model="dadosCultura.numeroaplicacoes"
               ></b-form-input>
             </b-form-group>
           </div>
@@ -90,7 +108,7 @@
               <b-form-input
                 size="sm"
                 class="mt-2 col-sm-12"
-                v-model="dadosCultura.estagioCultura"
+                v-model="dadosCultura.estagiocultura"
               ></b-form-input>
             </b-form-group>
           </div>
@@ -101,7 +119,7 @@
               placeholder="Enter something..."
               rows="3"
               max-rows="6"
-              v-model="dadosCultura.epocaAplicacao"
+              v-model="dadosCultura.epocaaplicacao"
             ></b-form-textarea>
           </div>
         </div>
@@ -112,11 +130,20 @@
             border: none;
           "
           class="mt-3 mb-3"
+           @click="proximoPasso"
           >Próximo <b-icon-arrow-down></b-icon-arrow-down
         ></b-button>
+
+         <b-button
+            style="border: none; float: left; background-color: #ff6400 !important;"
+            class="mt-3 mb-3"
+            @click="anterior"
+            >Anterior <b-icon-arrow-up class="ml-2"></b-icon-arrow-up>
+          </b-button>
       </b-card-body>
+       </b-overlay>
     </b-collapse>
-  </b-card>
+  <!-- </b-card> -->
 </template>
 
 <script>
@@ -129,16 +156,18 @@ export default {
   },
   data() {
     return {
+      show: false,
+      culturaInfortecnica: {},
       culturas: [],
       culturaSelect: null,
       dadosCultura: {
-        intervaloAplicacao: "",
-        intervaloSeguranca: "",
-        nAplicacao: 0,
-        nMaxAplicacao: 0,
-        estagioCultura: "",
-        epocaAplicacao: "",
-        formasAplicacoes: "",
+        intervaloaplicacao: "",
+        intervaloseguranca: "",
+        numeroaplicacoes: 0,
+        numeroaplicacoescompendio: 0,
+        estagiocultura: "",
+        epocaaplicacao: "",
+        nomecultura: "",
       },
     };
   },
@@ -149,18 +178,39 @@ export default {
   },
 
   methods: {
+     anterior(){
+      this.$root.$emit('bv::toggle::collapse', 'accordion-agrotoxico')
+      document.getElementsByClassName("btnReceita")[2].focus()
+    },
+    proximoPasso(){
+      this.$root.$emit('bv::toggle::collapse', 'accordion-diagnostico')
+      delete this.dadosCultura.numeroaplicacoescompendio
+       this.$store.commit("REGISTER_CULTURA", [{...this.culturaInfortecnica, ...this.dadosCultura}])
+       document.getElementsByClassName("btnReceita")[4].focus()
+    },
     async readCultura() {
       try {
+        this.show = true;
         const { data } = await http.get(
-          `items/agrotoxicosculturas?limit=1&fields[]=DESCRICAOAPLICACAO&fields[]=INTERVALOSEGURANCA&fields[]=INTERVALOENTRADA&fields[]=INTERVALOENTREAPLICACOES&fields[]=NUMEROAPLICACAO&fields[]=IDCULTURA&sort=IDAGROTOXICOSCULTURAS&filter={"_and":[{"IDAGROTOXICO":{"IDAGROTOXICO":{"_eq":${this.idAgrotoxicoSelectEvent}}}},{"IDCULTURA":{"IDCULTURA":{"_eq":${this.culturaSelect}}}}]}`
+          `items/agrotoxicosculturas?limit=1&sort=IDAGROTOXICOSCULTURAS&filter={"_and":[{"IDAGROTOXICO":{"IDAGROTOXICO":{"_eq":${this.idAgrotoxicoSelectEvent}}}},{"IDCULTURA":{"IDCULTURA":{"_eq":${this.culturaSelect.IDCULTURA.IDCULTURA}}}}]}`
         );
-        this.dadosCultura.intervaloAplicacao =
+        console.log(data.data[0])
+        this.culturaInfortecnica.fitoxidade = data.data[0].FITOTOXIDADE
+        this.culturaInfortecnica.intervaloseguranca = data.data[0].INTERVALOSEGURANCA
+        this.culturaInfortecnica.intervaloentrada = data.data[0].INTERVALOREENTRADA
+        this.culturaInfortecnica.intervaloaplicacao = data.data[0].INTERVALOENTREAPLICACOES
+        console.log(this.culturaInfortecnica)
+        this.dadosCultura.intervaloaplicacao =
           data.data[0].INTERVALOENTREAPLICACOES;
-        this.dadosCultura.intervaloSeguranca = data.data[0].INTERVALOSEGURANCA;
-        this.dadosCultura.nMaxAplicacao = data.data[0].NUMEROAPLICACAO;
+        this.dadosCultura.intervaloseguranca = data.data[0].INTERVALOSEGURANCA;
+        this.dadosCultura.numeroaplicacoescompendio = data.data[0].NUMEROAPLICACAO;
+        this.dadosCultura.nomecultura = this.culturaSelect.IDCULTURA.NOME
         this.$emit("idCulturaEvent", data.data[0].IDCULTURA);
+        this.show = false;
+
       } catch (error) {
           console.log(error)
+          this.show = false;
 
       }
     },

@@ -129,6 +129,23 @@
           </b-row>
 
           <b-row class="d-flex">
+<b-form-group
+              id="input-group-1"
+              label="CEP"
+              label-for="input-1"
+              class="col-sm-2"
+            >
+              <b-form-input
+                id="input-1"
+                type="email"
+                placeholder="CEP"
+                required
+                v-model="fornecedor.cep"
+              ></b-form-input>
+            </b-form-group>
+
+
+
             <b-form-group
               id="input-group-1"
               label="Telefone"
@@ -205,6 +222,7 @@
                     border: none !important;
                     background-color: #038c5a !important;
                   "
+                  @click="limpar"
                   >Limpar <b-icon-person-plus class="ml-1"></b-icon-person-plus
                 ></b-button>
               </div>
@@ -217,11 +235,20 @@
 </template>
 
 <script>
-import { httpEmpresa as Empresa} from '../../services/configEmpresa';
+import { httpEmpresa as Empresa } from "../../services/configEmpresa";
 export default {
+  props: {
+    dadosFornecedor: {
+      type: Object,
+    },
+    limparForm:{
+      type: Boolean
+    }
+  },
   data() {
     return {
       fornecedor: {
+        id_fornecedor: -1,
         nome: "",
         nomefantasia: "",
         cpfcnpj: "",
@@ -230,7 +257,7 @@ export default {
         numero: "",
         cidade: "",
         uf: "",
-        cep: "1133-121",
+        cep: "",
         telefone: "",
         email: "",
         ie: "",
@@ -239,17 +266,65 @@ export default {
     };
   },
   methods: {
-   async saveFornecedor(){
-     try {
-       const { data } = await Empresa.post('/fornecedor', this.fornecedor)
-       console.log(data)
-       this.$toast.open({
+    limpar(){
+      this.fornecedor = {
+        id_fornecedor: -1,
+        nome: "",
+        nomefantasia: "",
+        cpfcnpj: "",
+        endereco: "",
+        bairro: "",
+        numero: "",
+        cidade: "",
+        uf: "",
+        cep: "",
+        telefone: "",
+        email: "",
+        ie: "",
+        observacao: "",
+      }
+    },
+    async saveFornecedor() {
+      try {
+        console.log(this.dadosFornecedor.id_fornecedor);
+        if (this.fornecedor.id_fornecedor === -1) {
+          await Empresa.post("/fornecedor", this.fornecedor);
+          this.$emit("atualizarPesquisa")
+          return this.$toast.open({
             message: "Fornecedor Salvo com Sucesso",
             type: "success",
-          })
-     } catch (error) {
-       console.log(error.response)
-     }
+          
+          });
+        }
+        this.updateFornecedor(this.fornecedor.id_fornecedor);
+        
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+
+    async updateFornecedor(idFornecedor) {
+        await Empresa.put(
+        `/fornecedor/${idFornecedor}`,
+        this.fornecedor
+      );
+      this.$toast.open({
+        message: "Fornecedor Atualizado com Sucesso",
+        type: "success",
+        position: "bottom",
+      });
+      this.$emit("atualizarPesquisa")
+    },
+  },
+
+  watch: {
+    dadosFornecedor() {
+      console.log(this.dadosFornecedor);
+      Object.assign(this.fornecedor, this.dadosFornecedor);
+      this.$root.$emit("bv::toggle::collapse", "accordion-dadosCadastrais");
+    },
+    limparForm(){
+      this.limpar()
     }
   },
 };

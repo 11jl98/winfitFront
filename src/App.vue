@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <div>
-      <div>
+      <div v-if=" this.$route.path != `/ModeloPadrao/${this.$route.params.idReceita}`">
         <b-navbar
           toggleable="lg"
           style="background-color: #f6f6f6 !important"
           class="mb-1 shadow p-3 bg-white text-dark"
         >
-          <b-navbar-brand href="#">NavBar</b-navbar-brand>
+          <b-navbar-brand href="#">{{idReceita}}</b-navbar-brand>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -38,15 +38,22 @@
 </template>
 
 <script>
-
+import { mapState } from 'vuex'
 export default {
   name: "App",
   components: {
   },
+
+  computed:{
+    ...mapState({
+      idReceita: (state) => state.idReceituario
+    })
+  }
 };
 </script>
 
 <style>
+
 *::-webkit-scrollbar {
   width: 12px;               /* width of the entire scrollbar */
 }

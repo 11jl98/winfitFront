@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="accordion col-sm-10" id="receita" role="tablist">
-      <DadosCadastrais :clientEdit=clientEdit @updateCliente="updateTableCliente" @idClienteEvent="idClienteEvent = $event"/>
+      <DadosCadastrais :clientEdit="clientEdit" @updateCliente="updateTableCliente" @idClienteEvent="idClienteEvent = $event"/>
       <Propriedade :idClienteEvent="idClienteEvent"/>
       <Pesquisa :clienteUpdate="clienteUpdate" @clientEdit="clientEdit = $event"  />
     </div>
@@ -70,5 +70,61 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+#btnReceita {
+  background-color: #038c5a;
+  border: none !important;
+  transition: 1s;
+}
+#btnReceita:hover {
+  background-color: #004526 !important;
+}
+
+#btnReceita:focus {
+  background-color: #004526 !important;
+}
+
+.card {
+  border: 0px solid #ffff !important;
+}
+
+#menuReceita {
+  width: 18% !important;
+}
+
+@media (max-height: 696px) {
+  #menuReceita{
+    height: 500px!important;
+  }
+  #divContainer{
+   
+    margin-top: 1%!important;
+  }
+}
+
+@media (max-width: 950px) {
+  #menuReceita {
+    width: 99%!important;
+    height: 600px !important;
+    margin-left: 2px!important;
+  }
+  #divContainer {
+    display: flex!important;
+    flex-direction: column!important;
+  }
+  #receita {
+    width: 100% !important;
+  }
+
+  .card {
+    border-radius: 10px;
+  }
+}
+
+
+@media (min-width: 1120px) {
+  div #receita {
+    max-width: 80% !important;
+  }
+}
 </style>

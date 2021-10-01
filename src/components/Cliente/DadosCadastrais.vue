@@ -225,7 +225,8 @@
                     border: none !important;
                     background-color: #038c5a !important;
                   "
-                  >Limpar <b-icon-arrow-clockwise class="ml-1"></b-icon-arrow-clockwise
+                  >Limpar
+                  <b-icon-arrow-clockwise class="ml-1"></b-icon-arrow-clockwise
                 ></b-button>
               </div>
             </div>
@@ -280,9 +281,9 @@ export default {
             message: "Cliente Salvo com Sucesso",
             type: "success",
           });
-          this.$emit("idClienteEvent", data.id_cliente)
+          this.$emit("idClienteEvent", data.id_cliente);
         } else {
-          this.updateCliente()
+          this.updateCliente();
         }
       } catch (error) {
         console.log(error.response);
@@ -291,15 +292,12 @@ export default {
 
     async updateCliente() {
       try {
-       await Empresa.put(
-          `/cliente/${this.cliente.id_cliente}`,
-          this.cliente
-        );
+        await Empresa.put(`/cliente/${this.cliente.id_cliente}`, this.cliente);
         this.$toast.open({
-            message: "Cliente Atualizado com Sucesso",
-            type: "success",
-          });
-        this.$emit("updateCliente")
+          message: "Cliente Atualizado com Sucesso",
+          type: "success",
+        });
+        this.$emit("updateCliente");
       } catch (error) {
         console.log(error);
       }
@@ -309,7 +307,7 @@ export default {
   watch: {
     clientEdit() {
       Object.assign(this.cliente, this.clientEdit);
-          this.$emit("idClienteEvent", this.clientEdit.id_cliente)
+      this.$emit("idClienteEvent", this.clientEdit.id_cliente);
       this.$root.$emit("bv::toggle::collapse", "accordion-dadosCadastrais");
       document.getElementById("btnReceita").focus();
     },

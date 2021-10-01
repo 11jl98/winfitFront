@@ -1,16 +1,19 @@
 <template>
-  <b-card
+  <!-- <b-card
     style="background-color: #f2f2f2; border: none !important"
     no-body
-    class="mb-1 shadow rounded" 
+    class="mb-1 shadow rounded"
   >
-    <b-card-header header-tag="header" class="p-0" role="tab"> </b-card-header>
+    <b-card-header header-tag="header" class="p-0" role="tab"> </b-card-header> -->
     <b-collapse
       id="accordion-diagnostico"
       accordion="my-accordion"
       role="tabpanel"
+      class="animate__animated animate__zoomInDown"
+       style="background-color: #f2f2f2; border: none!important; border-radius: 5px"
     >
-      <b-card-body>
+    <b-overlay :show="show" bg-color="#fff" rounded="sm" spinner-variant="info" opacity="1">
+      <b-card-body style="height: 565px">
         <b-form-group
           id="sele"
           label="Selecione Diagnostico"
@@ -62,7 +65,11 @@
                 label="Dose/Utilizar"
                 label-for="input-3"
               >
-                <b-form-input size="sm" class="mt-2 col-sm-12"></b-form-input>
+                <b-form-input
+                  size="sm"
+                  v-model="dadosDiagnostico.dosagem"
+                  class="mt-2 col-sm-12"
+                ></b-form-input>
               </b-form-group>
             </div>
 
@@ -77,7 +84,7 @@
                   size="sm"
                   disabled
                   class="mt-2 col-sm-12"
-                  v-model="dadosDiagnostico.volumeCalda"
+                  v-model="dadosDiagnostico.volumecaldacompendio"
                 ></b-form-input>
               </b-form-group>
 
@@ -87,7 +94,11 @@
                 label="Vol. Calda a ser Utilizada"
                 label-for="input-3"
               >
-                <b-form-input size="sm" class="mt-2 col-sm-12"></b-form-input>
+                <b-form-input
+                  v-model="dadosDiagnostico.volumecalda"
+                  size="sm"
+                  class="mt-2 col-sm-12"
+                ></b-form-input>
               </b-form-group>
             </div>
 
@@ -115,7 +126,7 @@
                 placeholder="Enter something..."
                 rows="3"
                 max-rows="6"
-                v-model="dadosDiagnostico.formasAplicacoes"
+                v-model="dadosDiagnostico.aplicacao"
               ></b-form-textarea>
             </div>
           </div>
@@ -126,12 +137,21 @@
             background-color: #ff6400 !important;
             border: none;
           "
-          class="mt-3 mb-3"
+          @click="proximoPasso"
+          class="mt-4 mb-3"
           >Próximo <b-icon-arrow-down></b-icon-arrow-down
         ></b-button>
+
+        <b-button
+          style="border: none; float: left; background-color: #ff6400 !important;"
+          class="mt-4 mb-3"
+          @click="anterior"
+          >Anterior <b-icon-arrow-up class="ml-2"></b-icon-arrow-up>
+        </b-button>
       </b-card-body>
+    </b-overlay>
     </b-collapse>
-  </b-card>
+  <!-- </b-card> -->
 </template>
 
 <script>
@@ -147,13 +167,18 @@ export default {
   },
   data() {
     return {
+      show: false,
       diagnosticoSelect: null,
       diagnostico: [],
       dadosDiagnostico: {
         doseBula: "0 - 0",
-        volumeCalda: 0,
+        volumecalda: 0,
+        volumecaldacompendio: 0,
         solo: "",
-        formasAplicacoes: "",
+        aplicacao: "",
+        dosagem: "",
+        problemacomum: "",
+        problemacientifico: "",
       },
     };
   },
@@ -163,6 +188,16 @@ export default {
     },
   },
   methods: {
+    anterior() {
+      this.$root.$emit("bv::toggle::collapse", "accordion-culturas");
+      document.getElementsByClassName("btnReceita")[3].focus();
+    },
+    proximoPasso() {
+      this.$root.$emit("bv::toggle::collapse", "accordion-dadostecnicos");
+      delete this.dadosDiagnostico.volumecaldacompendio;
+      this.$store.commit("REGISTER_DIAGNOSTICO", [this.dadosDiagnostico]);
+      document.getElementsByClassName("btnReceita")[5].focus();
+    },
     async readDiagnosticoSelectBox() {
       try {
         const { data } = await http.get(
@@ -170,7 +205,7 @@ export default {
         );
         this.diagnostico = data;
       } catch (error) {
-          console.log(error)
+        console.log(error);
       }
     },
 
@@ -181,8 +216,7 @@ export default {
         );
         return data.data[0].DESCRICAO;
       } catch (error) {
-          console.log(error)
-
+        console.log(error);
       }
     },
 
@@ -193,8 +227,7 @@ export default {
         );
         return data.data[0].DESCRICAO;
       } catch (error) {
-          console.log(error)
-
+        console.log(error);
       }
     },
 
@@ -205,24 +238,28 @@ export default {
         );
         return data.data[0].DESCRICAO;
       } catch (error) {
-          console.log(error)
-
+        console.log(error);
       }
     },
 
     async loadDiagnostico(diagnostico) {
       try {
+        this.show = true;
         let unidadeDose = await this.readUnidadeDose(diagnostico.IDUNIDADEDOSE);
         let volumeCalda = await this.readVolumeCalda(
           diagnostico.IDUNIDADEVOLUMECALDA
         );
         let solo = await this.readSolo(diagnostico.IDSOLO);
         this.dadosDiagnostico.doseBula = `${diagnostico.DOSEMINIMA} - ${diagnostico.DOSEMAXIMA} ${unidadeDose}`;
-        this.dadosDiagnostico.volumeCalda = `${diagnostico.DOSEMINIMAVOLUMECALDA} - ${diagnostico.DOSEMAXIMAVOLUMECALDA} ${volumeCalda}`;
+        this.dadosDiagnostico.volumecaldacompendio = `${diagnostico.DOSEMINIMAVOLUMECALDA} - ${diagnostico.DOSEMAXIMAVOLUMECALDA} ${volumeCalda}`;
         this.dadosDiagnostico.solo = solo;
-        this.dadosDiagnostico.formasAplicacoes = diagnostico.OBSERVACAO;
+        this.dadosDiagnostico.aplicacao = diagnostico.OBSERVACAO;
+        this.dadosDiagnostico.problemacomum = diagnostico.NOMECOMUM;
+        this.dadosDiagnostico.problemacientifico = diagnostico.NOMECIENTIFICO;
+        this.show = false;
       } catch (error) {
-          console.log(error)
+        console.log(error);
+        this.show = false;
 
       }
     },

@@ -40,7 +40,7 @@
             <div style="margin: auto 20px">
               <b-button
                 variant="primary"
-                class="mt-3"
+                class="mt-3 mb-3"
                 :disabled="pesquisa === '' ? true : false"
                 @click="listClientParams(1)"
               >

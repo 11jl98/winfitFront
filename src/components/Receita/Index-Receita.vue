@@ -11,35 +11,34 @@
     >
       <div class="col-12 mt-4">
         <div class="list-group" id="list-tab" role="tablist">
-          <b-button block class="shadow" id="btnReceita" v-b-toggle.accordion-2
+          <b-button block class="shadow btnReceita"  v-b-toggle.accordion-responsavel
             >Responsavel Técnico
             <b-icon-person-lines-fill class="ml-2"></b-icon-person-lines-fill>
           </b-button>
           <b-button
             block
-            id="btnReceita"
+          
             v-b-toggle.accordion-cliente
-            class="shadow teste2"
+            class="shadow btnReceita"
             style=""
             >Cliente
             <b-icon-person-circle class="float-right"></b-icon-person-circle
           ></b-button>
-     
-          <b-button block v-b-toggle.accordion-3 class="shadow" id="btnReceita"
+
+          <b-button block v-b-toggle.accordion-agrotoxico class="shadow btnReceita" 
             >Agrotóxico
             <b-icon-cart-check class="float-right"></b-icon-cart-check
           ></b-button>
           <b-button
             block
-            class="shadow"
-            id="btnReceita"
+            class="shadow btnReceita"
+          
             v-b-toggle.accordion-culturas
             >Cultura <b-icon-flower1 class="float-right"></b-icon-flower1
           ></b-button>
           <b-button
             block
-            id="btnReceita"
-            class="shadow"
+            class="shadow btnReceita"
             v-b-toggle.accordion-diagnostico
             >Diagnostico
             <b-icon-shield-slash class="float-right"></b-icon-shield-slash
@@ -47,13 +46,22 @@
 
           <b-button
             block
-            id="btnReceita"
-            class="shadow"
+            class="shadow btnReceita"
             v-b-toggle.accordion-dadostecnicos
             >Dados Técnicos
             <b-icon-file-earmark-medical
               class="float-right"
             ></b-icon-file-earmark-medical
+          ></b-button>
+
+           <b-button
+            block
+            class="shadow btnReceita"
+            v-b-toggle.accordion-pesquisa
+            >Pesquisa
+            <b-icon-search
+              class="float-right"
+            ></b-icon-search
           ></b-button>
           <hr />
           <div>
@@ -79,8 +87,9 @@
 
     <div class="accordion col-sm-10" id="receita" role="tablist">
       <!-- <Cliente /> -->
-      <ResponsavelTecnico />
-             <Cliente />
+      
+      <ResponsavelTecnico @responsavelEmit="responsavelEmit = $event"/>
+      <Cliente :responsavelEmit="responsavelEmit"/>
       <Agrotoxico @idAgrotoxicoSelectEvent="eventIdAgrot($event)" />
       <Cultura
         :idAgrotoxicoSelectEvent="idAgrotoxicoSelectEvent"
@@ -93,8 +102,9 @@
       />
       <DadosTecnicos
         :idAgrotoxicoSelectEvent="idAgrotoxicoSelectEvent"
-        :idCulturaSelectEvent="idCulturaSelectEvent"
-      />
+        :idCulturaSelectEvent="idCulturaSelectEvent" />
+
+      <Pesquisa />
     </div>
   </div>
 </template>
@@ -108,6 +118,7 @@ import Diagnostico from "./Diagnostico.vue";
 import ResponsavelTecnico from "./ResponsavelTecnico.vue";
 import Cliente from "./Cliente.vue";
 import DadosTecnicos from "./DadosTecnicos.vue";
+import Pesquisa from "./Pesquisa.vue";
 
 export default {
   name: "Component-Receita",
@@ -122,10 +133,12 @@ export default {
     ResponsavelTecnico,
     Cliente,
     DadosTecnicos,
+    Pesquisa
   },
 
   data() {
     return {
+      responsavelEmit:{},
       idAgrotoxicoSelectEvent: 0,
       idCulturaSelectEvent: null,
       idAgrotoxico: null,
@@ -151,20 +164,17 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-.teste {
-  background: #59c9a5;
-}
-#btnReceita {
+<style scoped>
+.btnReceita {
   background-color: #038c5a;
   border: none !important;
   transition: 1s;
 }
-#btnReceita:hover {
+.btnReceita:hover {
   background-color: #004526 !important;
 }
 
-#btnReceita:focus {
+.btnReceita:focus {
   background-color: #004526 !important;
 }
 
@@ -176,21 +186,16 @@ export default {
   width: 18% !important;
 }
 
-
 @media (max-height: 696px) {
-  #menuReceita{
-    height: 500px!important;
+  #menuReceita {
+    height: 500px !important;
   }
-  #divContainer{
-   
-    margin-top: 1%!important;
+  #divContainer {
+    margin-top: 1% !important;
   }
 }
 
-
-
-
-@media (max-width: 950px) {
+/* @media (max-width: 950px) {
   #menuReceita {
     width: 99% !important;
     height: 600px !important;
@@ -207,13 +212,7 @@ export default {
   .card {
     border-radius: 10px;
   }
-}
-/* 
-@media (min-width: 1200px){
-  div #receita{
-   max-width: 90%!important;
-    
-  } */
+} */
 
 @media (min-width: 1120px) {
   div #receita {

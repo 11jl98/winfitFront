@@ -180,6 +180,12 @@ export default {
     dadosPesquisa: {
       type: Object,
     },
+
+    dadosPesquisaMobile: {
+      type: Object,
+    },
+
+   
   },
   data() {
     return {
@@ -243,6 +249,21 @@ export default {
     dadosResponsavelTecnico() {
       // this.dadosResponsavelData = this.dadosResponsavelTecnico
     },
+
+    dadosPesquisaMobile(){
+      this.dadosResponsavelData.receitasart = this.dadosPesquisaMobile.receitasart;
+      this.dadosResponsavelData.proximareceita =
+        this.dadosPesquisaMobile.proximareceita;
+      this.dadosResponsavelData.artatual = this.dadosPesquisaMobile.artatual;
+      this.dadosResponsavelData.profissao = this.dadosPesquisaMobile.profissao;
+      this.dadosResponsavelData.tokensc = this.dadosPesquisaMobile.tokensc;
+      this.dadosResponsavelData.complementoreceita = this.dadosPesquisaMobile.cidade;
+      this.dadosResponsavelData.seriesc = this.dadosPesquisaMobile.seriesc;
+      this.dadosResponsavelData.conselho = this.dadosPesquisaMobile.conselho;
+      this.dadosResponsavelData.contrato = this.dadosPesquisaMobile.contrato;
+    },
+
+
     dadosPesquisa() {
       this.dadosResponsavelData.receitasart = this.dadosPesquisa.receitasart;
       this.dadosResponsavelData.proximareceita =

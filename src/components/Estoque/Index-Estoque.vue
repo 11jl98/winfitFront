@@ -15,47 +15,30 @@
             block
             class="shadow"
             id="btnDadosCadastrais"
-            v-b-toggle.accordion-responsavel
+            v-b-toggle.accordion-dadosEstoque
             >Dados Cadastrais
-            <b-icon-person-lines-fill
-              class="float-right"
-            ></b-icon-person-lines-fill>
+             <b-icon-cart-check class="ml-1 float-right"></b-icon-cart-check>
           </b-button>
           <div class="mobile-active">
-            <DadosCadastrais
+            <!-- <DadosCadastrais
               :dadosPesquisaMobile="dadosPesquisaMobile"
               @dadosResponsavel="dadosResponsavelTecnico = $event"
-            />
+            /> -->
           </div>
 
+         
           <b-button
             block
-            id="btnDadosResponsavel"
-            v-b-toggle.accordion-dadosTecnicos
-            class="shadow teste2 mt-2"
-            style=""
-            >Dados do Responsavel
-            <b-icon-person-badge class="float-right"></b-icon-person-badge
-          ></b-button>
-          <div class="mobile-active">
-            <DadosTecnicos
-              @reloadPesquisa="reloadPesquisa = !reloadPesquisa"
-              :dadosResponsavelTecnico="dadosResponsavelTecnico"
-               :dadosPesquisaMobile="dadosPesquisaMobile"
-            />
-          </div>
-          <b-button
-            block
-            v-b-toggle.accordion-pesquisa
+            v-b-toggle.accordion-pesquisaEstoque
             class="shadow mt-2"
             id="btnReceita"
             >Pesquisa <b-icon-search class="float-right"></b-icon-search
           ></b-button>
           <div class="mobile-active">
-            <Pesquisa
+            <!-- <Pesquisa
               :reloadPesquisa="reloadPesquisa"
               @resposavelEditMobile="dadosPesquisaMobile = $event"
-            />
+            /> -->
           </div>
         </div>
       </div>
@@ -66,8 +49,10 @@
       id="receita"
       role="tablist"
     >
+    <Estoque :dadosEstoque="dadosEstoque"/>
+    <Pesquisa @dadosEstoque="dadosEstoque = $event"/>
       <!-- <Cliente /> -->
-      <DadosCadastrais
+      <!-- <DadosCadastrais
         :dadosPesquisa="dadosPesquisa"
         @dadosResponsavel="dadosResponsavelTecnico = $event"
         :dadosPesquisaMobile="dadosPesquisaMobile"
@@ -82,42 +67,29 @@
         :reloadPesquisa="reloadPesquisa"
         @resposavelEdit="dadosPesquisa = $event"
         @resposavelEditMobile="dadosPesquisaMobile = $event"
-      />
+      /> -->
     </div>
   </div>
 </template>
 
 <script>
-import DadosCadastrais from "../../components/ResponsavelTecnico/DadosCadastrais.vue";
-import DadosTecnicos from "../../components/ResponsavelTecnico/DadosTecnicos.vue";
-import Pesquisa from "../../components/ResponsavelTecnico/Pesquisa.vue";
+import Estoque from '../../components/Estoque/Estoque.vue'
+import Pesquisa from '../../components/Estoque/Pesquisa.vue'
 export default {
-  data() {
-    return {
-      reloadPesquisa: false,
-      dadosPesquisaMobile:{},
-      dadosPesquisa: {},
-      dadosResponsavelTecnico: {},
-    };
-  },
+components:{
+    Estoque,
+    Pesquisa
+},
 
-  watch:{
-    dadosPesquisaMobile(){
-      console.log("aquii index")
-    }
-  },
-  components: {
-    DadosCadastrais,
-    DadosTecnicos,
-    Pesquisa,
-  },
-};
+data(){
+  return {
+    dadosEstoque: {}
+  }
+}
+}
 </script>
 
 <style scoped>
-/* .mobile-active{
-  border: 2px solid black;
-} */
 #btnDadosCadastrais {
   background-color: #038c5a;
   border: none !important;
