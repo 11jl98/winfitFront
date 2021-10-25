@@ -16,7 +16,7 @@
                 <td>{{embalagem.CAPACIDADE}}</td>
                 <td>{{embalagem.UNIDADE}}</td>
                 <td>
-                    <b-button variant="success" @click="selectEmbalagem(embalagem)">Selecionar</b-button>
+                    <b-button size="sm" variant="success" @click="selectEmbalagem(embalagem)">Selecionar</b-button>
                 </td>
             </tr>
         </tbody>

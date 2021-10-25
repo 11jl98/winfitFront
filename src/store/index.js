@@ -11,7 +11,8 @@ const store = new Vuex.Store({
         culturas: [],
         diagnosticos: [],
         dadosTecnico: [],
-        idReceituario: ""
+        idReceituario: "",
+        idInfortecnica: "",
     },
     actions,
     mutations

@@ -13,7 +13,7 @@
         <div class="list-group" id="list-tab" role="tablist">
           <b-button block class="shadow btnReceita"  v-b-toggle.accordion-responsavel
             >Responsavel Técnico
-            <b-icon-person-lines-fill class="ml-2"></b-icon-person-lines-fill>
+            <b-icon-person-lines-fill class="float-right"></b-icon-person-lines-fill>
           </b-button>
           <b-button
             block
@@ -88,23 +88,34 @@
     <div class="accordion col-sm-10" id="receita" role="tablist">
       <!-- <Cliente /> -->
       
-      <ResponsavelTecnico @responsavelEmit="responsavelEmit = $event"/>
-      <Cliente :responsavelEmit="responsavelEmit"/>
-      <Agrotoxico @idAgrotoxicoSelectEvent="eventIdAgrot($event)" />
+      <ResponsavelTecnico :dadosReceitaProps="dadosReceita" @responsavelEmit="responsavelEmit = $event"/>
+      <Cliente :dadosClienteProps="dadosReceita" :responsavelEmit="responsavelEmit"/>
+      <Agrotoxico @idAgrotoxicoSelectEvent="eventIdAgrot($event)" 
+      :dadosInfortecnicaProps="dadosInfortecnica"
+      :limparInforTecnica="limparInforTecnica"
+      @dadosInfortecnicaByAgrotoxico="dadosInfortecnicaByAgrotoxico = $event" />
+
+
       <Cultura
+      :limparInforTecnica="limparInforTecnica"
         :idAgrotoxicoSelectEvent="idAgrotoxicoSelectEvent"
+        :dadosInfortecnicaByAgrotoxico="dadosInfortecnicaByAgrotoxico"
         @idCulturaEvent="eventIdCultura($event)"
       />
 
       <Diagnostico
+      :limparInforTecnica="limparInforTecnica"
+        :dadosInfortecnicaByAgrotoxico ="dadosInfortecnicaByAgrotoxico"
         :idAgrotoxicoSelectEvent="idAgrotoxicoSelectEvent"
         :idCulturaSelecEvent="idCulturaSelectEvent"
       />
       <DadosTecnicos
+      @limparInforTecnica="limparInforTecnica = !limparInforTecnica"
+        :dadosInfortecnicaByAgrotoxico ="dadosInfortecnicaByAgrotoxico"
         :idAgrotoxicoSelectEvent="idAgrotoxicoSelectEvent"
         :idCulturaSelectEvent="idCulturaSelectEvent" />
 
-      <Pesquisa />
+      <Pesquisa @dadosReceita="dadosReceita = $event" @dadosInfortecnica="dadosInfortecnica = $event"/>
     </div>
   </div>
 </template>
@@ -138,6 +149,10 @@ export default {
 
   data() {
     return {
+    limparInforTecnica: true,
+      dadosInfortecnicaByAgrotoxico :{},
+      dadosInfortecnica:[],
+      dadosReceita: {},
       responsavelEmit:{},
       idAgrotoxicoSelectEvent: 0,
       idCulturaSelectEvent: null,
@@ -149,6 +164,7 @@ export default {
 
   methods: {
     eventIdCultura(ev) {
+      console.log("aquuuuuuuuuuuuuuuui")
       this.idCulturaSelectEvent = ev;
     },
     eventIdAgrot(ev) {
@@ -213,6 +229,8 @@ export default {
     border-radius: 10px;
   }
 } */
+
+
 
 @media (min-width: 1120px) {
   div #receita {

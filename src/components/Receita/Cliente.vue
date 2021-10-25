@@ -66,6 +66,10 @@ export default {
     responsavelEmit:{
       type: Object,
 
+    },
+
+    dadosClienteProps:{
+      type: Object
     }
   },
   created() {
@@ -125,6 +129,12 @@ export default {
   watch:{
     responsavelEmit(){
       console.log(this.responsavelEmit)
+    },
+
+    dadosClienteProps(){
+      this.clienteSelect = this.dadosClienteProps.id_cliente
+      this.loadPropriedade(this.dadosClienteProps.id_cliente)
+      this.propriedadeSelect = this.dadosClienteProps.id_propriedade
     }
   }
 };

@@ -64,51 +64,73 @@
             </thead>
             <tbody>
               <tr v-for="receita in receitas" :key="receita.idReceita">
-                <td class="textoGrande">{{receita.numeroreceita}}</td>
-                <td >{{receita.notafiscal}}</td>
-                <td class="textoGrande" v-b-popover.hover.top="{
+                <td class="textoGrande">{{ receita.numeroreceita }}</td>
+                <td>{{ receita.notafiscal }}</td>
+                <td
+                  class="textoGrande"
+                  v-b-popover.hover.top="{
                     variant: 'secondary',
-                    content: receita.numeroart 
-                  }">{{receita.numeroart }}</td>
-                <td class="textoGrande" v-b-popover.hover.top="{
+                    content: receita.numeroart,
+                  }"
+                >
+                  {{ receita.numeroart }}
+                </td>
+                <td
+                  class="textoGrande"
+                  v-b-popover.hover.top="{
                     variant: 'secondary',
-                    content: receita.responsavel.nome +' CPF: '+ receita.responsavel.cpf
-                  }">{{receita.responsavel.nome}}</td>
-                <td class="textoGrande" v-b-popover.hover.top="{
+                    content:
+                      receita.responsavel.nome +
+                      ' CPF: ' +
+                      receita.responsavel.cpf,
+                  }"
+                >
+                  {{ receita.responsavel.nome }}
+                </td>
+                <td
+                  class="textoGrande"
+                  v-b-popover.hover.top="{
                     variant: 'secondary',
-                    content: receita.cliente.nome +' CPF/CNPJ: '+ receita.responsavel.cpf
-                  }">{{receita.cliente.nome}}</td>
-                <td>{{receita.data.split("-").reverse().join("/")}}</td>
+                    content:
+                      receita.cliente.nome +
+                      ' CPF/CNPJ: ' +
+                      receita.responsavel.cpf,
+                  }"
+                >
+                  {{ receita.cliente.nome }}
+                </td>
+                <td>{{ receita.data.split("-").reverse().join("/") }}</td>
                 <td>
-                <b-button
-                  size="sm"
+                  <b-button
+                    size="sm"
                     @click="editarReceita(receita)"
-                  :id="receita.id_receita"
-                  class="mr-2"
-                  variant="info"
-                  v-b-popover.hover.left="{
-                    variant: 'info',
-                    content: 'Editar',
-                  }"
-                >
-                  <b-icon-check
-                    v-if="lastReceitaSelect === receita.id_receita"
-                    scale="2"
-                  ></b-icon-check>
+                    :id="receita.id_receita"
+                    class="mr-2"
+                    variant="info"
+                    v-b-popover.hover.left="{
+                      variant: 'info',
+                      content: 'Editar',
+                    }"
+                  >
+                    <b-icon-check
+                      v-if="lastReceitaSelect === receita.id_receita"
+                      scale="2"
+                    ></b-icon-check>
 
-                  <b-icon-pencil v-else scale="0.7"></b-icon-pencil>
-                </b-button>
-                <b-button
-                  size="sm"
-                  variant="secondary"
-                  v-b-popover.hover.right="{
-                    variant: 'secondary',
-                    content: 'Excluir',
-                  }"
-                >
-                  <b-icon-trash scale="0.7"></b-icon-trash
-                ></b-button>
-              </td>
+                    <b-icon-pencil v-else scale="0.7"></b-icon-pencil>
+                  </b-button>
+                  <b-button
+                    size="sm"
+                    variant="secondary"
+                    v-b-popover.hover.right="{
+                      variant: 'secondary',
+                      content: 'Excluir',
+                    }"
+                    @click="excluir(receita)"
+                  >
+                    <b-icon-trash scale="0.7"></b-icon-trash
+                  ></b-button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -126,29 +148,60 @@ export default {
     this.listReceita();
   },
 
-    data(){
-        return {
-            show: false,
-            receitas: [],
-            lastReceitaSelect:""
-        }
+  data() {
+    return {
+      show: false,
+      receitas: [],
+      lastReceitaSelect: "",
+    };
+  },
+  computed: {
+    dataFormatada(data) {
+      console.log(data);
+      return data.split("-").reverse().join("/");
     },
-    computed:{
-        dataFormatada(data){
-            console.log(data)
-           return data.split("-").reverse().join("/")
-        }
-    },
+  },
   methods: {
-      editarReceita(receita) {
-    //   this.$emit("dadosFornecedor", fornecedor);
+    async excluir(receita) {
+      this.$swal({
+        title: "Deseja excluir a receita",
+        icon: "warning",
+        confirmButtonColor: "#038c5a",
+        cancelButtonColor: "#FF0000",
+        showCancelButton: true,
+        confirmButtonText: "Sim",
+        cancelButtonText: "Não",
+        type: "error",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await Empresa.delete(`/receitas/${receita.id_receita}`);
+            this.listReceita();
+          } catch (error) {
+            if (error.response.status === 409) {
+              this.$toast.open({
+                message:
+                  "Para apagar a receita você deve excluir os agrotoxicos pertencentes a ela",
+                type: "error",
+              });
+              await this.editarReceita(receita);
+            }
+          }
+        }
+      });
+    },
+
+    editarReceita(receita) {
+      //   this.$emit("dadosFornecedor", fornecedor);
       if (this.lastReceitaSelect === "") {
         document.getElementById(receita.id_receita).disabled = true;
-        document.getElementById(
-          receita.id_receita
-        ).style.backgroundColor = "#2E8B57";
+        document.getElementById(receita.id_receita).style.backgroundColor =
+          "#2E8B57";
         this.lastReceitaSelect = receita.id_receita;
-        this.readInfortecnica(receita.id_receita)
+        this.readInfortecnica(receita.id_receita);
+        this.$emit("dadosReceita", receita);
+        this.$store.commit("ID_RECEITUARIO", receita.id_receita);
+        this.$root.$emit("bv::toggle::collapse", "accordion-agrotoxico");
         return;
       }
       document.getElementById(this.lastReceitaSelect).disabled = false;
@@ -158,26 +211,40 @@ export default {
       document.getElementById(receita.id_receita).style.backgroundColor =
         "#2E8B57";
       this.lastReceitaSelect = receita.id_receita;
-      this.readInfortecnica(receita.id_receita)
+      this.readInfortecnica(receita.id_receita);
+      this.$emit("dadosReceita", receita);
+      this.$root.$emit("bv::toggle::collapse", "accordion-agrotoxico");
     },
-    async readInfortecnica(idReceita){
-        const { data } = await Empresa.get(`/infortecnica/${idReceita}`)
-        console.log(data)
+
+
+    async readInfortecnica(idReceita) {
+      try {
+        const { data } = await Empresa.get(`/infortecnica/${idReceita}`);
+        this.$emit("dadosInfortecnica", data);
+        console.log(data);
+      } catch (error) {
+        console.log(error)
+      }
     },
-  async  listReceita(page = 1) {
-      const { data } = await Empresa.get(`/receitas/pesquisa/${page}`);
-        this.receitas = data.data
+
+
+    async listReceita(page = 1) {
+      try {
+        const { data } = await Empresa.get(`/receitas/pesquisa/${page}`);
+        this.receitas = data.data;
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
 };
 </script>
 
 <style>
-
-.textoGrande{
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 100px;
+.textoGrande {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100px;
 }
 </style>

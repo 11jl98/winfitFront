@@ -19,5 +19,10 @@ export default {
 
     [MutationsTypes.ID_RECEITUARIO](state, idReceituario){
         state.idReceituario = idReceituario
-    }
+    },
+
+
+    [MutationsTypes.ID_INFORTECNICA](state, idInfortecnica){
+        state.idInfortecnica = idInfortecnica
+    },
 }

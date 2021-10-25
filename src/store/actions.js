@@ -19,5 +19,9 @@ export default {
 
     registerIdReceituario({commit}, idReceituario){
         return commit(MutationsType.ID_RECEITUARIO, idReceituario)
+    },
+
+    registerIdInfortecnica({commit}, idInfortecnica){
+        return commit(MutationsType.ID_INFORTECNICA, idInfortecnica)
     }
 }

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const http = axios.create({
-    baseURL: 'http://147.182.243.98:8055/'
+    baseURL: 'http://api.winfit.com.br/'
 })
 
 http.interceptors.request.use((value) => {

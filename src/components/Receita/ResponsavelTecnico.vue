@@ -106,6 +106,11 @@ import saveReceita from '../../assets/saveReceita.png';
 import moment from 'moment'
 import 'animate.css'
 export default {
+  props:{
+    dadosReceitaProps: {
+      type: Object
+    }
+  },
 created(){
     this.responsavelTec();
 },
@@ -162,6 +167,23 @@ document.getElementsByClassName("btnReceita")[1].focus()
      
 
     },
+},
+watch:{
+  dadosReceitaProps(){
+    console.log(this.dadosReceitaProps)
+    this.responsavelDados.id_responsavel = this.dadosReceitaProps.id_responsavel
+    this.responsavelSelect = this.dadosReceitaProps.id_responsavel
+    this.responsavelDados.serie = this.dadosReceitaProps.serie
+      this.responsavelDados.numeroart = this.dadosReceitaProps.numeroart
+      this.responsavelDados.numeroreceita = this.dadosReceitaProps.numeroreceita
+      this.responsavelDados.complementoreceita = this.dadosReceitaProps.complementoreceita
+      this.responsavelDados.valor = this.dadosReceitaProps.valor
+      this.responsavelDados.notafiscal = this.dadosReceitaProps.notafiscal
+      this.responsavelDados.datanfe = this.dadosReceitaProps.datanfe
+      this.responsavelDados.data = this.dadosReceitaProps.data
+      this.responsavelDados.obsmip = this.dadosReceitaProps.obsmip
+      this.responsavelDados.observacao = this.dadosReceitaProps.observacao
+  }
 }
 }
 </script>

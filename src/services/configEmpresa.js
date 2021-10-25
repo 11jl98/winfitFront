@@ -7,7 +7,7 @@ export const httpEmpresa = axios.create({
 httpEmpresa.interceptors.request.use((value) => {
     value.headers = {
         ...value.headers,
-        Authorization: `bearer MQ.VPAh4VR5H2-2kUPusrIuoylYwyinzqjEZcCoXY82QY8aeptNaBFx8E-7GC-Y`,
+        Authorization: `bearer MQ.57s-MhNqbfxyeVCpXvU2XIdFYrjLqGz79bYXQnvu7RbDMJokoRQWxeOBswEI`,
         // "Access-Control-Allow-Origin": "*",
         // "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
         // "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token, Authorization"
