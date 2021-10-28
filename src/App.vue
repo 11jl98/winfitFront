@@ -23,6 +23,7 @@
                 <b-dropdown-item to="/Cliente">Cliente</b-dropdown-item>
                 <b-dropdown-item to="/Responsavel">Responsavel Técnico</b-dropdown-item>
                 <b-dropdown-item to="/Receita">Receita</b-dropdown-item>
+                <b-dropdown-item to="/Empresa">Empresa</b-dropdown-item>
               </b-nav-item-dropdown>
 
               <b-button variant="outline-secondary" class="mb-1">Sair</b-button>

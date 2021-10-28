@@ -6,6 +6,7 @@ import Fornecedor from '../src/Pages/Fornecedor/Page-Fornecedor.vue'
 import Responsavel from '../src/Pages/ResponsavelTecnico/Page-Responsavel.vue'
 import Estoque from '../src/Pages/Estoque/Page-Estoque.vue'
 import ModeloReceita from '../src/components/ModeloReceita/ModeloPadrao.vue'
+import Empresa from '../src/Pages/Empresa/Page-Empresa.vue'
 
 
 Vue.use(Router)
@@ -38,6 +39,10 @@ const routes = [
     {
         path: '/ModeloPadrao/:idReceita',
         component: ModeloReceita
+    },
+    {
+        path: '/Empresa',
+        component: Empresa
     }
 ]
 
