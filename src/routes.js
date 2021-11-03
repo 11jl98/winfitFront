@@ -7,6 +7,7 @@ import Responsavel from '../src/Pages/ResponsavelTecnico/Page-Responsavel.vue'
 import Estoque from '../src/Pages/Estoque/Page-Estoque.vue'
 import ModeloReceita from '../src/components/ModeloReceita/ModeloPadrao.vue'
 import Empresa from '../src/Pages/Empresa/Page-Empresa.vue'
+import Login from '../src/Pages/Login/Page-Login.vue'
 
 
 Vue.use(Router)
@@ -43,6 +44,10 @@ const routes = [
     {
         path: '/Empresa',
         component: Empresa
+    },
+    {
+        path: '/',
+        component: Login
     }
 ]
 

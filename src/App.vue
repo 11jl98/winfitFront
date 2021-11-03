@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div>
-      <div v-if=" this.$route.path != `/ModeloPadrao/${this.$route.params.idReceita}`">
+      <div v-if=" this.$route.path != `/ModeloPadrao/${this.$route.params.idReceita}`&& this.$route.path !='/' ">
         <b-navbar
           toggleable="lg"
           style="background-color: #f6f6f6 !important"
