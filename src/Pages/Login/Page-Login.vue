@@ -41,7 +41,6 @@
       </div>
       <div class="containerLogo">
         <img class="logoWinfit" :src="plusIconWinfit" alt="" />
-        <p></p>
       </div>
     </div>
   </b-overlay>
@@ -72,7 +71,7 @@ export default {
         console.log(response.data);
         sessionStorage.setItem("token", response.data.token);
         this.$router.push({
-          path: "/Receita",
+          path: "/Home",
         });
         this.show = false;
       } catch (error) {
@@ -184,9 +183,15 @@ form button[type="button"] {
   color: white;
   cursor: pointer;
   margin-top: 1rem;
+  transition: 0.5;
 }
 form input[type="submit"]:hover {
   background-color: rgb(45, 167, 154);
+}
+form button[type="button"]:hover {
+  background-color: rgb(45, 167, 154);
+  transition: 0.5;
+
 }
 .loading {
   width: 100%;

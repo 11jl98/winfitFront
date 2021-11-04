@@ -11,7 +11,7 @@
     >
       <div class="col-12 mt-4">
         <div class="list-group" id="list-tab" role="tablist">
-          <b-button block class="shadow btnReceita"  v-b-toggle.accordion-responsavel
+          <b-button block class="shadow btnReceita"  v-b-toggle.accordion-responsavel disabled
             >Responsavel Técnico
             <b-icon-person-lines-fill class="float-right"></b-icon-person-lines-fill>
           </b-button>
@@ -21,18 +21,19 @@
             v-b-toggle.accordion-cliente
             class="shadow btnReceita"
             style=""
+            disabled
             >Cliente
             <b-icon-person-circle class="float-right"></b-icon-person-circle
           ></b-button>
 
-          <b-button block v-b-toggle.accordion-agrotoxico class="shadow btnReceita" 
+          <b-button block v-b-toggle.accordion-agrotoxico class="shadow btnReceita"  disabled
             >Agrotóxico
             <b-icon-cart-check class="float-right"></b-icon-cart-check
           ></b-button>
           <b-button
             block
             class="shadow btnReceita"
-          
+          disabled
             v-b-toggle.accordion-culturas
             >Cultura <b-icon-flower1 class="float-right"></b-icon-flower1
           ></b-button>
@@ -40,6 +41,7 @@
             block
             class="shadow btnReceita"
             v-b-toggle.accordion-diagnostico
+            disabled
             >Diagnostico
             <b-icon-shield-slash class="float-right"></b-icon-shield-slash
           ></b-button>
@@ -48,6 +50,7 @@
             block
             class="shadow btnReceita"
             v-b-toggle.accordion-dadostecnicos
+            disabled
             >Dados Técnicos
             <b-icon-file-earmark-medical
               class="float-right"
@@ -58,6 +61,7 @@
             block
             class="shadow btnReceita"
             v-b-toggle.accordion-pesquisa
+            
             >Pesquisa
             <b-icon-search
               class="float-right"
@@ -88,8 +92,12 @@
     <div class="accordion col-sm-10" id="receita" role="tablist">
       <!-- <Cliente /> -->
       
-      <ResponsavelTecnico :dadosReceitaProps="dadosReceita" @responsavelEmit="responsavelEmit = $event"/>
-      <Cliente :dadosClienteProps="dadosReceita" :responsavelEmit="responsavelEmit"/>
+      <ResponsavelTecnico :dadosReceitaProps="dadosReceita" 
+      @responsavelEmit="responsavelEmit = $event"/>
+      
+      <Cliente :dadosClienteProps="dadosReceita" 
+      :responsavelEmit="responsavelEmit"/>
+      
       <Agrotoxico @idAgrotoxicoSelectEvent="eventIdAgrot($event)" 
       :dadosInfortecnicaProps="dadosInfortecnica"
       :limparInforTecnica="limparInforTecnica"
@@ -115,7 +123,9 @@
         :idAgrotoxicoSelectEvent="idAgrotoxicoSelectEvent"
         :idCulturaSelectEvent="idCulturaSelectEvent" />
 
-      <Pesquisa @dadosReceita="dadosReceita = $event" @dadosInfortecnica="dadosInfortecnica = $event"/>
+      <Pesquisa @dadosReceita="dadosReceita = $event" 
+      @dadosInfortecnica="dadosInfortecnica = $event"/>
+      
     </div>
   </div>
 </template>

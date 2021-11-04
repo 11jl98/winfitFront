@@ -8,6 +8,7 @@ import Estoque from '../src/Pages/Estoque/Page-Estoque.vue'
 import ModeloReceita from '../src/components/ModeloReceita/ModeloPadrao.vue'
 import Empresa from '../src/Pages/Empresa/Page-Empresa.vue'
 import Login from '../src/Pages/Login/Page-Login.vue'
+import Home from '../src/Pages/Home/Page-Home.vue'
 
 
 Vue.use(Router)
@@ -48,6 +49,10 @@ const routes = [
     {
         path: '/',
         component: Login
+    },
+    {
+        path: '/Home',
+        component: Home
     }
 ]
 
